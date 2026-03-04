@@ -1,11 +1,11 @@
-import { useState, useEffect, useRef } from 'react';
-import { Handle, Position } from 'reactflow';
-import { styles, colors, nodeTypeStyles, nodeIcons } from '../styles';
+import { useState, useEffect, useRef } from "react";
+import { Handle, Position } from "reactflow";
+import { styles, colors, nodeTypeStyles, nodeIcons } from "../styles";
 
 export const EnhancedTextNode = ({ id, data }) => {
-  const [text, setText] = useState(data?.text || '{{input}}');
+  const [text, setText] = useState(data?.text || "{{input}}");
   const [variables, setVariables] = useState([]);
-  const [dimensions, setDimensions] = useState({ width: 220, height: 'auto' });
+  const [dimensions, setDimensions] = useState({ width: 220, height: "auto" });
   const textareaRef = useRef(null);
 
   const extractVariables = (textContent) => {
@@ -26,9 +26,10 @@ export const EnhancedTextNode = ({ id, data }) => {
   const calculateDimensions = () => {
     if (!textareaRef.current) return;
 
-    const textarea = textareaRef.current;
-    const lines = text.split('\n').length;
-    const longestLine = Math.max(...text.split('\n').map(line => line.length));
+    const lines = text.split("\n").length;
+    const longestLine = Math.max(
+      ...text.split("\n").map((line) => line.length),
+    );
 
     const calculatedWidth = Math.min(500, Math.max(220, longestLine * 8 + 40));
 
@@ -39,7 +40,7 @@ export const EnhancedTextNode = ({ id, data }) => {
 
     setDimensions({
       width: calculatedWidth,
-      height: calculatedHeight
+      height: calculatedHeight,
     });
   };
 
@@ -47,11 +48,11 @@ export const EnhancedTextNode = ({ id, data }) => {
     const detectedVars = extractVariables(text);
     setVariables(detectedVars);
     calculateDimensions();
-  }, [text]);
+  }, [text, calculateDimensions]);
 
   useEffect(() => {
     calculateDimensions();
-  }, []);
+  }, [calculateDimensions]);
 
   const handleTextChange = (e) => {
     setText(e.target.value);
@@ -79,17 +80,17 @@ export const EnhancedTextNode = ({ id, data }) => {
         >
           <div
             style={{
-              position: 'absolute',
-              right: '16px',
-              top: '50%',
-              transform: 'translateY(-50%)',
-              fontSize: '10px',
+              position: "absolute",
+              right: "16px",
+              top: "50%",
+              transform: "translateY(-50%)",
+              fontSize: "10px",
               color: colors.textSecondary,
               backgroundColor: colors.bgDark,
-              padding: '2px 6px',
-              borderRadius: '4px',
-              whiteSpace: 'nowrap',
-              pointerEvents: 'none',
+              padding: "2px 6px",
+              borderRadius: "4px",
+              whiteSpace: "nowrap",
+              pointerEvents: "none",
               border: `1px solid ${colors.border}`,
             }}
           >
@@ -100,17 +101,17 @@ export const EnhancedTextNode = ({ id, data }) => {
     });
   };
 
-  const nodeType = 'text';
+  const nodeType = "text";
   const typeStyles = nodeTypeStyles[nodeType] || {};
-  const icon = nodeIcons[nodeType] || '📝';
+  const icon = nodeIcons[nodeType] || "📝";
 
   const nodeStyle = {
     ...styles.baseNode,
     ...typeStyles,
     width: dimensions.width,
     height: dimensions.height,
-    minHeight: '100px',
-    transition: 'width 0.3s ease, height 0.3s ease',
+    minHeight: "100px",
+    transition: "width 0.3s ease, height 0.3s ease",
   };
 
   return (
@@ -128,12 +129,12 @@ export const EnhancedTextNode = ({ id, data }) => {
       {variables.length > 0 && (
         <div
           style={{
-            fontSize: '11px',
+            fontSize: "11px",
             color: colors.textSecondary,
-            marginBottom: '8px',
-            display: 'flex',
-            gap: '4px',
-            flexWrap: 'wrap',
+            marginBottom: "8px",
+            display: "flex",
+            gap: "4px",
+            flexWrap: "wrap",
           }}
         >
           <span style={{ fontWeight: 600 }}>Variables:</span>
@@ -142,9 +143,9 @@ export const EnhancedTextNode = ({ id, data }) => {
               key={v}
               style={{
                 backgroundColor: colors.bgDark,
-                padding: '2px 6px',
-                borderRadius: '4px',
-                fontSize: '10px',
+                padding: "2px 6px",
+                borderRadius: "4px",
+                fontSize: "10px",
                 border: `1px solid ${colors.handleTarget}`,
               }}
             >
@@ -162,14 +163,14 @@ export const EnhancedTextNode = ({ id, data }) => {
           value={text}
           onChange={handleTextChange}
           placeholder="Enter text. Use {{variableName}} for inputs."
-          rows={Math.max(3, text.split('\n').length)}
+          rows={Math.max(3, text.split("\n").length)}
           style={{
             ...styles.textarea,
-            width: '100%',
-            minHeight: '60px',
-            fontFamily: 'monospace',
-            fontSize: '13px',
-            lineHeight: '1.5',
+            width: "100%",
+            minHeight: "60px",
+            fontFamily: "monospace",
+            fontSize: "13px",
+            lineHeight: "1.5",
           }}
         />
       </div>
@@ -177,17 +178,23 @@ export const EnhancedTextNode = ({ id, data }) => {
       {/* Helper text */}
       <div
         style={{
-          fontSize: '10px',
+          fontSize: "10px",
           color: colors.textMuted,
-          marginTop: '4px',
-          lineHeight: '1.4',
+          marginTop: "4px",
+          lineHeight: "1.4",
         }}
       >
-        Tip: Use <code style={{ 
-          backgroundColor: colors.bgDark, 
-          padding: '1px 4px', 
-          borderRadius: '2px' 
-        }}>{'{{variableName}}'}</code> to create inputs
+        Tip: Use{" "}
+        <code
+          style={{
+            backgroundColor: colors.bgDark,
+            padding: "1px 4px",
+            borderRadius: "2px",
+          }}
+        >
+          {"{{variableName}}"}
+        </code>{" "}
+        to create inputs
       </div>
 
       {/* Output handle */}
