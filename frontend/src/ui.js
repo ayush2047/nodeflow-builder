@@ -54,14 +54,14 @@ export const PipelineUI = () => {
     onConnect,
   } = useStore(selector, shallow);
 
-  const getInitNodeData = (nodeID, type) => {
-    let nodeData = { id: nodeID, nodeType: `${type}` };
-    return nodeData;
-  };
-
   const onDrop = useCallback(
     (event) => {
       event.preventDefault();
+
+      const getInitNodeData = (nodeID, type) => {
+        let nodeData = { id: nodeID, nodeType: `${type}` };
+        return nodeData;
+      };
 
       const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect();
       if (event?.dataTransfer?.getData("application/reactflow")) {
@@ -90,7 +90,7 @@ export const PipelineUI = () => {
         addNode(newNode);
       }
     },
-    [reactFlowInstance, getNodeID, addNode, getInitNodeData],
+    [reactFlowInstance, getNodeID, addNode],
   );
 
   const onDragOver = useCallback((event) => {

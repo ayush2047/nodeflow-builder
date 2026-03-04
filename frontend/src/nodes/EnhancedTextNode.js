@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { Handle, Position } from "reactflow";
 import { styles, colors, nodeTypeStyles, nodeIcons } from "../styles";
 
@@ -23,7 +23,7 @@ export const EnhancedTextNode = ({ id, data }) => {
     return matches;
   };
 
-  const calculateDimensions = () => {
+  const calculateDimensions = useCallback(() => {
     if (!textareaRef.current) return;
 
     const lines = text.split("\n").length;
@@ -42,7 +42,7 @@ export const EnhancedTextNode = ({ id, data }) => {
       width: calculatedWidth,
       height: calculatedHeight,
     });
-  };
+  }, [text]);
 
   useEffect(() => {
     const detectedVars = extractVariables(text);
