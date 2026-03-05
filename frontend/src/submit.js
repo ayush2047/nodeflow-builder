@@ -19,7 +19,7 @@ export const SubmitButton = () => {
 
     try {
       // use absolute URL in case proxy isn't applied or the app wasn't restarted
-      const url = "http://localhost:8000/pipelines/parse";
+      const url = "https://nodeflow-builder.onrender.com/pipelines/parse";// "http://localhost:8000/pipelines/parse";
       const res = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
